@@ -1,11 +1,11 @@
-class TodoComponent {
-    #targetEl;
-    #listEl;
-    #footerEl;
-    #inputEl;
-    #addButtonEl;
+export class TodoComponent {
+    #targetEl: HTMLElement | undefined;
+    #listEl: HTMLElement | undefined;
+    #footerEl: HTMLElement | undefined;
+    #inputEl: HTMLTextAreaElement | undefined;
+    #addButtonEl: HTMLButtonElement | undefined;
 
-    mount(targetEl) {
+    mount(targetEl: HTMLElement) {
         this.#targetEl = targetEl
 
         this.#listEl = document.createElement('ul');
@@ -28,10 +28,20 @@ class TodoComponent {
         this.#footerEl.appendChild(this.#addButtonEl);
     }
 
-    addItem(extText) {
+    addItem(extText?: string) {
         const itemEl = document.createElement('li')
-        itemEl.textContent = extText ? extText : this.#inputEl.value
-        this.#inputEl.value = ''
-        this.#listEl.appendChild(itemEl); 
+        itemEl.textContent = extText ? extText : this.#inputEl?.value ?? null
+        if(this.#inputEl) this.#inputEl.value = ''
+        else throw new Error("Component probably not initialized!");
+        
+
+        if(this.#listEl) this.#listEl.appendChild(itemEl);
+        else throw new Error("Component probably not initialized!");
+    
     }
+}
+
+export function putLog(message: string)
+{
+    console.log(message);
 }
